@@ -162,20 +162,37 @@ class Bitmap {
     
   }
   
-  public void floydSteinbergDither() {
-    // first convert to greyscale
-    for (int i = 0; i < this.getWidth(); i++) {
-      for (int j = 0; j < this.getHeight(); j++) {
-	Color currentColor = new Color(this.writeImage.getRGB(i, j));
-	// Use the same weights that Gimp uses
-	int newR = (int) (currentColor.getRed() * 0.21);
-	int newG = (int) (currentColor.getGreen() * 0.72);
-	int newB = (int) (currentColor.getBlue() * 0.07);
-	Color replaceColor = new Color(newR + newG + newB, newR + newG + newB, newR + newG + newB);
-	this.writeImage.setRGB(i, j, replaceColor.getRGB());
+  public void floydSteinbergDither(boolean l) {
+    
+    deepCopy(this.image); // use original image (start fresh)
+    
+    if(l) {
+      // first convert to greyscale
+      for (int i = 0; i < this.getWidth(); i++) {
+	for (int j = 0; j < this.getHeight(); j++) {
+	  Color currentColor = new Color(this.writeImage.getRGB(i, j));
+	  // Use the same weights that Gimp uses
+	  int newR = (int) (currentColor.getRed() * 0.21);
+	  int newG = (int) (currentColor.getGreen() * 0.72);
+	  int newB = (int) (currentColor.getBlue() * 0.07);
+	  Color replaceColor = new Color(newR + newG + newB, newR + newG + newB, newR + newG + newB);
+	  this.writeImage.setRGB(i, j, replaceColor.getRGB());
+	}
       }
+      System.out.println("converting to grayscale...");
     }
-    System.out.println("converting to grayscale...");
+    else {
+      // not lumos
+      for (int i = 0; i < this.getWidth(); i++) {
+	for (int j = 0; j < this.getHeight(); j++) {
+	  Color currentColor = new Color(this.writeImage.getRGB(i, j));
+	  int newValue = ((currentColor.getRed() + currentColor.getGreen() + currentColor.getBlue())/3);
+	  Color replaceColor = new Color(newValue, newValue, newValue);
+	  this.writeImage.setRGB(i, j, replaceColor.getRGB());
+	}
+      }
+      System.out.println("converting to grayscale...");
+    }
     
     
     // start dithering

@@ -32,11 +32,13 @@ public class Main {
     for(Bitmap b : bitmaps) {
       System.out.println("Width: " + b.getWidth() + ", " + "height: " + b.getHeight());      
       b.convertToGrayscaleAverage();
-      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/out.png");
+      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/greyscale.png");
       b.convertToGrayscaleLumosity();
-      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/out2.png");
-      b.floydSteinbergDither();
-      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/out3.png");
+      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/greyscale_lumos.png");
+      b.floydSteinbergDither(false);
+      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/dither.png");
+      b.floydSteinbergDither(true);
+      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/dither_lumos.png");
       
       System.out.println();
     }
@@ -44,12 +46,17 @@ public class Main {
     // Just test 1 image
     /*Bitmap image = new Bitmap("wings/mtg__gift_of_orzhova_by_algenpfleger-d5sj6ir.jpg"); // wings
     System.out.println("Width: " + image.getWidth() + ", " + "height: " + image.getHeight());      
-    image.convertToGrayscaleAverage();
-    image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/out.png");
-    image.convertToGrayscaleLumosity();
-    image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/out2.png");
-    image.floydSteinbergDither();
-    image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/out3.png");*/
+    //image.convertToGrayscaleAverage();
+    //image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/out.png");
+    //image.convertToGrayscaleLumosity();
+    //image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/out2.png");
+    image.floydSteinbergDither(false);
+    //image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/out3.png");
+    
+    image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/outTest.png");
+    
+    image.floydSteinbergDither(true);
+    image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/outTest2.png");*/
     
   }
   
