@@ -26,8 +26,8 @@ class Bitmap {
   private int height;
   //private int[] pixels;
   private String fileName;
-  private BufferedImage image = null;
-  private BufferedImage writeImage = null;
+  public BufferedImage image = null;
+  public BufferedImage writeImage = null;
   
   public Bitmap(String fileName) {
     this.fileName = fileName;
@@ -56,7 +56,7 @@ class Bitmap {
     this.fileName = null;
   }
   
-  private void deepCopy(BufferedImage imageToCopy) {
+  void deepCopy(BufferedImage imageToCopy) {
     ColorModel cm = imageToCopy.getColorModel();
     boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
     WritableRaster raster = imageToCopy.copyData(null);
@@ -64,15 +64,19 @@ class Bitmap {
   }
   
   public String getFileName() {
-    return fileName;
+    return this.fileName;
   }
 
   public int getHeight() {
-    return height;
+    return this.height;
   }
 
   public int getWidth() {
-    return width;
+    return this.width;
+  }
+  
+  public BufferedImage getImage() {
+    return this.image;
   }
   
   /**

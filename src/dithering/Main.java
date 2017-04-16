@@ -58,6 +58,7 @@ public class Main {
     image.floydSteinbergDither(true);
     image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/outTest2.png");*/
     
+    
   }
   
 }
