@@ -35,10 +35,21 @@ public class Main {
       b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/out.png");
       b.convertToGrayscaleLumosity();
       b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/out2.png");
+      b.floydSteinbergDither();
+      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/out3.png");
       
       System.out.println();
     }
     
+    // Just test 1 image
+    /*Bitmap image = new Bitmap("wings/mtg__gift_of_orzhova_by_algenpfleger-d5sj6ir.jpg"); // wings
+    System.out.println("Width: " + image.getWidth() + ", " + "height: " + image.getHeight());      
+    image.convertToGrayscaleAverage();
+    image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/out.png");
+    image.convertToGrayscaleLumosity();
+    image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/out2.png");
+    image.floydSteinbergDither();
+    image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/out3.png");*/
     
   }
   

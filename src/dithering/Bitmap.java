@@ -24,7 +24,7 @@ class Bitmap {
 
   private int width;
   private int height;
-  private int[] pixels;
+  //private int[] pixels;
   private String fileName;
   private BufferedImage image = null;
   private BufferedImage writeImage = null;
@@ -42,7 +42,7 @@ class Bitmap {
       width = image.getWidth();
       height = image.getHeight();
       
-      pixels = new int[width * height];
+      //pixels = new int[width * height];
     } catch (IOException ex) {
       Logger.getLogger(Bitmap.class.getName()).log(Level.SEVERE, null, ex);
     }
@@ -51,7 +51,7 @@ class Bitmap {
   public Bitmap(int width, int height) {
     this.width = width;
     this.height = height;
-    this.pixels = new int[width * height];
+    //this.pixels = new int[width * height];
     this.image = null;
     this.fileName = null;
   }
@@ -69,18 +69,6 @@ class Bitmap {
 
   public int getHeight() {
     return height;
-  }
-
-  public int[] getPixels() {
-    return pixels;
-  }
-  
-  public int getPixel(int x, int y) {
-    return pixels[x + y * width];
-  }
-  
-  public void setPixel(int x, int y, int value) {
-    pixels[x + y * width] = value;
   }
 
   public int getWidth() {
@@ -135,11 +123,93 @@ class Bitmap {
   public void ditherImage() {
     deepCopy(this.image); // use original image (start fresh)
     
-    /*
-    to do:
-    loop through image, creating matrixes of 4 pixels
-    associate a parttern based off of average value of pixels in each matrix
-    */
+    // first convert to greyscale
+    for (int i = 0; i < this.getWidth(); i++) {
+      for (int j = 0; j < this.getHeight(); j++) {
+	Color currentColor = new Color(this.writeImage.getRGB(i, j));
+	// Use the same weights that Gimp uses
+	int newR = (int) (currentColor.getRed() * 0.21);
+	int newG = (int) (currentColor.getGreen() * 0.72);
+	int newB = (int) (currentColor.getBlue() * 0.07);
+	Color replaceColor = new Color(newR + newG + newB, newR + newG + newB, newR + newG + newB);
+	this.writeImage.setRGB(i, j, replaceColor.getRGB());
+      }
+    }
+    System.out.println("converting to grayscale...");
+    
+    // start dithering
+    int matrixSize = 2;
+    int[] ditherMatrix = {0, 3, 2, 1};
+    
+    for (int i = 0; i < this.getWidth(); i+=2) {
+      for (int j = 0; j < this.getHeight(); j+=2) {
+	Color currentColor = new Color(this.writeImage.getRGB(i, j));
+	Color rightColor = new Color(this.writeImage.getRGB(i+1, j));
+	Color downColor = new Color(this.writeImage.getRGB(i, j+1));
+	Color downAndRightColor = new Color(this.writeImage.getRGB(i+1, j+1));
+	
+	int currentGreyValue = currentColor.getRed(); // all RGB values are the same b/c greyscale
+	int rightGreyValue = currentColor.getRed();
+	int downGreyValue = currentColor.getRed();
+	int downAndRightValue = currentColor.getRed();
+	
+	
+	
+	//Color avg = new Color();
+	
+      }
+    }
+    
+  }
+  
+  public void floydSteinbergDither() {
+    // first convert to greyscale
+    for (int i = 0; i < this.getWidth(); i++) {
+      for (int j = 0; j < this.getHeight(); j++) {
+	Color currentColor = new Color(this.writeImage.getRGB(i, j));
+	// Use the same weights that Gimp uses
+	int newR = (int) (currentColor.getRed() * 0.21);
+	int newG = (int) (currentColor.getGreen() * 0.72);
+	int newB = (int) (currentColor.getBlue() * 0.07);
+	Color replaceColor = new Color(newR + newG + newB, newR + newG + newB, newR + newG + newB);
+	this.writeImage.setRGB(i, j, replaceColor.getRGB());
+      }
+    }
+    System.out.println("converting to grayscale...");
+    
+    
+    // start dithering
+    // Moves verticaly, then horizontally
+    /*for (int i = 0; i < this.getWidth(); i++) {
+      for (int j = 0; j < this.getHeight(); j++) {*/
+    for (int j = 0; j < this.getHeight(); j++) {
+      for (int i = 0; i < this.getWidth(); i++) {
+	
+	// get original pixel
+	Color oldPixel = new Color(this.writeImage.getRGB(i, j));
+	
+	// new pixel = find closest palette color (in this case, black or white)
+	Color newPixel = (oldPixel.getRed() <= 127) ? new Color(0, 0, 0): new Color(255, 255, 255);
+	
+	// set quantized pixel
+	this.writeImage.setRGB(i, j, newPixel.getRGB());
+	
+	// get quantization error
+	int quantError = oldPixel.getRGB() - newPixel.getRGB();
+	
+	// the dithering stuffs -> Floyd–Steinberg algorithm
+	if((i+1) < this.getWidth())
+	  this.writeImage.setRGB(i+1, j, (int) (this.writeImage.getRGB(i+1, j) + quantError * 7.0 / 16));
+	if((i-1) > 0 && (j+1) < this.getHeight())
+	  this.writeImage.setRGB(i-1, j+1, (int) (this.writeImage.getRGB(i-1, j+1) + quantError * 3.0 / 16));
+	if((j+1) < this.getHeight())
+	  this.writeImage.setRGB(i, j+1, (int) (this.writeImage.getRGB(i, j+1) + quantError * 5.0 / 16));
+	if((i+1) < this.getWidth() && (j+1) < this.getHeight())
+	  this.writeImage.setRGB(i+1, j+1, (int) (this.writeImage.getRGB(i+1, j+1) + quantError * 1.0 / 16));
+	
+      }
+    }
+    
   }
   
   public void writeBitmap(String writeFileName) {
