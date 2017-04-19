@@ -26,8 +26,8 @@ class Bitmap {
   private int height;
   private int[] pixels;
   private String fileName;
-  private BufferedImage image = null;
-  private BufferedImage writeImage = null;
+  private BufferedImage image = null;       //scanned in image
+  private BufferedImage writeImage = null;  //the one we are modifying
   
   public Bitmap(String fileName) {
     this.fileName = fileName;
@@ -132,14 +132,19 @@ class Bitmap {
     System.out.println("converting to grayscale...");
   }
   
-  public void ditherImage() {
+  
+  public void TAGDitherImage() {
     deepCopy(this.image); // use original image (start fresh)
     
+    // work with:  this.writeImage
     /*
     to do:
     loop through image, creating matrixes of 4 pixels
     associate a parttern based off of average value of pixels in each matrix
     */
+    this.writeImage.
+    
+    //
   }
   
   public void writeBitmap(String writeFileName) {

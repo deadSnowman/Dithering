@@ -41,7 +41,6 @@ public class Main {
       b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/out.png");
       b.convertToGrayscaleLumosity();
       b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/out2.png");
-      
       System.out.println();
     }
     
