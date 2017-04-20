@@ -29,7 +29,7 @@ public class Main {
     bitmaps.add(image7);
 
     // Iterate through bitmaps list, convert, and write converted grayscale images to their associated folders
-    for(Bitmap b : bitmaps) {
+    /*for(Bitmap b : bitmaps) {
       System.out.println("Width: " + b.getWidth() + ", " + "height: " + b.getHeight());      
       b.convertToGrayscaleAverage();
       b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/greyscale.png");
@@ -41,10 +41,10 @@ public class Main {
       b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/dither_lumos.png");
       
       System.out.println();
-    }
+    }*/
     
     // Just test 1 image
-    /*Bitmap image = new Bitmap("wings/mtg__gift_of_orzhova_by_algenpfleger-d5sj6ir.jpg"); // wings
+    Bitmap image = new Bitmap("wings/mtg__gift_of_orzhova_by_algenpfleger-d5sj6ir.jpg"); // wings
     System.out.println("Width: " + image.getWidth() + ", " + "height: " + image.getHeight());      
     //image.convertToGrayscaleAverage();
     //image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/out.png");
@@ -56,7 +56,7 @@ public class Main {
     image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/outTest.png");
     
     image.floydSteinbergDither(true);
-    image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/outTest2.png");*/
+    image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/outTest2.png");
     
     
   }

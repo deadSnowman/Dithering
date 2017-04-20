@@ -231,6 +231,87 @@ class Bitmap {
       }
     }
     
+    /*for (int j = 0; j < this.getHeight(); j++) {
+      for (int i = 0; i < this.getWidth(); i++) {
+	
+	// get original pixel
+	Color oldPixel = new Color(this.writeImage.getRGB(i, j));
+	
+	// new pixel = find closest palette color (in this case, black or white)
+	Color newPixel = (oldPixel.getRed() <= 127) ? new Color(0, 0, 0): new Color(255, 255, 255);
+	
+	// set quantized pixel
+	this.writeImage.setRGB(i, j, newPixel.getRGB());
+	
+	// get quantization error
+	int quantError = oldPixel.getRGB() - newPixel.getRGB();
+	
+	// the dithering stuffs -> Floyd–Steinberg algorithm
+	if((i+1) < this.getWidth()) {
+	  
+	  Color tmp = new Color(this.writeImage.getRGB(i+1, j));
+	  int tmpRed = (int) (tmp.getRed() + quantError * 7.0 / 16);
+	  int tmpGreen = (int) (tmp.getGreen() + quantError * 7.0 / 16);
+	  int tmpBlue = (int) (tmp.getBlue() + quantError * 7.0 / 16);
+	  Color newTmp = new Color(tmpRed, tmpGreen, tmpBlue);
+	  
+	  this.writeImage.setRGB(i+1, j, newTmp.getRGB());
+	  
+	  
+	 //this.writeImage.setRGB(i+1, j, addToColor(new Color(this.writeImage.getRGB(i+1, j)), (int) (quantError * 7.0 / 16)).getRGB());
+	  
+	  //this.writeImage.setRGB(i+1, j, (int) (this.writeImage.getRGB(i+1, j) + quantError * 7.0 / 16));
+	}
+	if((i-1) > 0 && (j+1) < this.getHeight()) {
+	  
+	  Color tmp = new Color(this.writeImage.getRGB(i-1, j+1));
+	  int tmpRed = (int) (tmp.getRed() + quantError * 3.0 / 16);
+	  int tmpGreen = (int) (tmp.getGreen() + quantError * 3.0 / 16);
+	  int tmpBlue = (int) (tmp.getBlue() + quantError * 3.0 / 16);
+	  Color newTmp = new Color(tmpRed, tmpGreen, tmpBlue);
+	  
+	  this.writeImage.setRGB(i-1, j+1, newTmp.getRGB());
+	  
+	  //this.writeImage.setRGB(i-1, j+1, (int) (this.writeImage.getRGB(i-1, j+1) + quantError * 3.0 / 16));
+	}
+	if((j+1) < this.getHeight()) {
+	  
+	  Color tmp = new Color(this.writeImage.getRGB(i, j+1));
+	  int tmpRed = (int) (tmp.getRed() + quantError * 5.0 / 16);
+	  int tmpGreen = (int) (tmp.getGreen() + quantError * 5.0 / 16);
+	  int tmpBlue = (int) (tmp.getBlue() + quantError * 5.0 / 16);
+	  Color newTmp = new Color(tmpRed, tmpGreen, tmpBlue);
+	  
+	  this.writeImage.setRGB(i, j+1, newTmp.getRGB());
+	  
+	  //this.writeImage.setRGB(i, j+1, (int) (this.writeImage.getRGB(i, j+1) + quantError * 5.0 / 16));
+	}
+	if((i+1) < this.getWidth() && (j+1) < this.getHeight()) {
+	  
+	  Color tmp = new Color(this.writeImage.getRGB(i+1, j+1));
+	  int tmpRed = (int) (tmp.getRed() + quantError * 1.0 / 16);
+	  int tmpGreen = (int) (tmp.getGreen() + quantError * 1.0 / 16);
+	  int tmpBlue = (int) (tmp.getBlue() + quantError * 1.0 / 16);
+	  Color newTmp = new Color(tmpRed, tmpGreen, tmpBlue);
+	  
+	  this.writeImage.setRGB(i+1, j+1, newTmp.getRGB());
+	  
+	  //this.writeImage.setRGB(i+1, j+1, (int) (this.writeImage.getRGB(i+1, j+1) + quantError * 1.0 / 16));
+	}
+	
+      }
+    }*/
+    
+  }
+  
+  public Color addToColor(Color pixel, int value) {
+    int tmpRed = (int) (pixel.getRed() + value);
+    int tmpGreen = (int) (pixel.getGreen() + value);
+    int tmpBlue = (int) (pixel.getBlue() + value);
+    
+    Color newTmp = new Color(tmpRed, tmpGreen, tmpBlue);
+    
+    return newTmp;
   }
   
   public void writeBitmap(String writeFileName) {
