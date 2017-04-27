@@ -112,7 +112,6 @@ class Bitmap {
                 this.writeImage.setRGB(i, j, replaceColor.getRGB());
             }
         }
-        System.out.println("converting to grayscale...");
     }
 
     /**
@@ -137,46 +136,6 @@ class Bitmap {
                 this.writeImage.setRGB(i, j, replaceColor.getRGB());
             }
         }
-        System.out.println("converting to grayscale...");
-    }
-
-    public void ditherImage() {
-        deepCopy(this.image); // use original image (start fresh)
-
-        // first convert to greyscale
-        for (int i = 0; i < this.getWidth(); i++) {
-            for (int j = 0; j < this.getHeight(); j++) {
-                Color currentColor = new Color(this.writeImage.getRGB(i, j));
-                // Use the same weights that Gimp uses
-                int newR = (int) (currentColor.getRed() * 0.21);
-                int newG = (int) (currentColor.getGreen() * 0.72);
-                int newB = (int) (currentColor.getBlue() * 0.07);
-                Color replaceColor = new Color(newR + newG + newB, newR + newG + newB, newR + newG + newB);
-                this.writeImage.setRGB(i, j, replaceColor.getRGB());
-            }
-        }
-        System.out.println("converting to grayscale...");
-
-        // start dithering
-        int matrixSize = 2;
-        int[] ditherMatrix = {0, 3, 2, 1};
-
-        for (int i = 0; i < this.getWidth(); i += 2) {
-            for (int j = 0; j < this.getHeight(); j += 2) {
-                Color currentColor = new Color(this.writeImage.getRGB(i, j));
-                Color rightColor = new Color(this.writeImage.getRGB(i + 1, j));
-                Color downColor = new Color(this.writeImage.getRGB(i, j + 1));
-                Color downAndRightColor = new Color(this.writeImage.getRGB(i + 1, j + 1));
-
-                int currentGreyValue = currentColor.getRed(); // all RGB values are the same b/c greyscale
-                int rightGreyValue = currentColor.getRed();
-                int downGreyValue = currentColor.getRed();
-                int downAndRightValue = currentColor.getRed();
-
-                //Color avg = new Color();
-            }
-        }
-
     }
 
     public void floydSteinbergDither(boolean l) {
@@ -196,7 +155,6 @@ class Bitmap {
                     this.writeImage.setRGB(i, j, replaceColor.getRGB());
                 }
             }
-            System.out.println("converting to grayscale...");
         } else {
             // not lumos
             for (int i = 0; i < this.getWidth(); i++) {
@@ -207,7 +165,6 @@ class Bitmap {
                     this.writeImage.setRGB(i, j, replaceColor.getRGB());
                 }
             }
-            System.out.println("converting to grayscale...");
         }
 
         deepImageCopy(writeImage);
@@ -290,7 +247,6 @@ class Bitmap {
                     this.writeImage.setRGB(i, j, replaceColor.getRGB());
                 }
             }
-            System.out.println("converting to grayscale...");
         } else {
             // not lumos
             for (int i = 0; i < this.getWidth(); i++) {
@@ -301,7 +257,6 @@ class Bitmap {
                     this.writeImage.setRGB(i, j, replaceColor.getRGB());
                 }
             }
-            System.out.println("converting to grayscale...");
         }
         //4x as large matrix since each pixel will be replaced by 2x2
 //        bayerBitmap(this.getWidth()*2, this.getHeight()*2); //sets up global variable bayerImage 

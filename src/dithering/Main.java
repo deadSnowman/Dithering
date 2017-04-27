@@ -40,36 +40,16 @@ public class Main {
       System.out.println("Running in test mode...");
       runTest();
     }
-    else if(Arrays.asList(args).contains("-all")) {
-      System.out.println("Contains \"-all\"");
-      // run all methods
-      // if directory is specified, write there, otherwise use current directory
-    }
     else {
       if(Arrays.asList(args).contains("-i")) { // if there in an input file flag
-	String image = args[Arrays.asList(args).indexOf("-g")+1];
-	File path = new File(args[Arrays.asList(args).indexOf("-g")+1]);
+	String imagePath = args[Arrays.asList(args).indexOf("-i")+1];
+	File path = new File(args[Arrays.asList(args).indexOf("-i")+1]);
 	
 	if(path.exists() && !path.isDirectory()) { // if the file is real
 	
-	  if(Arrays.asList(args).contains("-g")) {
-	    // greyscale conversion
-	  }
-	  if(Arrays.asList(args).contains("-gl")) {
-	    // greyscale conversion (luminosity)
-	  }
-	  if(Arrays.asList(args).contains("-d")) {
-	    // stein floyd dithering
-	  }
-	  if(Arrays.asList(args).contains("-dl")) {
-	    // stein floyd dithering (luminosity)
-	  }
-	  if(Arrays.asList(args).contains("-b")) {
-	    // bayer matrix dithering
-	  }
-	  if(Arrays.asList(args).contains("-bl")) {
-	    // bayer matrix dithering (luminosity)
-	  }
+	  Bitmap image = new Bitmap(imagePath);
+	  goThroughOptions(image, args);
+	  
 	}
 	else {
 	  System.out.println("You need to specify an image file after \"-i\"");
@@ -79,50 +59,63 @@ public class Main {
     
   }
   
-  public static void runPrompt() {
-    
-    Scanner scan = new Scanner(System.in);
-    String input;
-    
-    System.out.println("Welcom to the grayscale conversion and dithering program");
-    System.out.println("==============================AYYYYEEELAMOOO============");
-    givePromptMessage();
-    
-    while(scan.hasNext()) {
-      givePromptMessage();
-      
-      input = scan.nextLine();
-      
-      if(input.compareTo("x") == 0) {
-	System.out.println("Exiting program...");
-	break;
-      }
-      else {
-      
-	switch(input) {
-	  case "1":
-	    System.out.println("greyscale");
-	    break;
-	  case "2":
-	    System.out.println("greyscale");
-	    break;
-	}
-	  
-      }
-      
+  public static void goThroughOptions(Bitmap image, String[] args) {
+    if(Arrays.asList(args).contains("-all") || Arrays.asList(args).contains("-a")) {
+      performAllOperations(image);
     }
+    if(Arrays.asList(args).contains("-g")) {
+      // greyscale conversion
+      image.convertToGrayscaleAverage();
+      image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/greyscale.png");
+    }
+    if(Arrays.asList(args).contains("-gl")) {
+      // greyscale conversion (luminosity)
+      image.convertToGrayscaleLumosity();
+      image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/greyscale_lumos.png");
+    }
+    if(Arrays.asList(args).contains("-d")) {
+      // stein floyd dithering
+      image.floydSteinbergDither(false);
+      image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/dither.png");
+    }
+    if(Arrays.asList(args).contains("-dl")) {
+      // stein floyd dithering (luminosity)
+      image.floydSteinbergDither(true);
+      image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/dither_lumos.png");
+    }
+    if(Arrays.asList(args).contains("-b")) {
+      // bayer matrix dithering
+      image.bayerDither(false);
+      image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/bayerDither.png");
+    }
+    if(Arrays.asList(args).contains("-bl")) {
+      // bayer matrix dithering (luminosity)
+      image.bayerDither(true);
+      image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/bayerDither_lumos.png");
+    }
+    
   }
   
-  public static void givePromptMessage() {
-    System.out.println("What would you like to do?");
-      System.out.println("1.) Convert to greyscale");
-      System.out.println("2.) Convert to greyscale luminosity");
-      System.out.println("3.) Dither using Stein Floyd dithering");
-      System.out.println("4.) Dither using Stein Floyd dithering (luminosity)");
-      System.out.println("5.) Dither with ");
-      System.out.println("6.) Convert to greyscale");
-      System.out.println("x.) Quit program");
+  public static void performAllOperations(Bitmap b) {
+    b.convertToGrayscaleAverage();
+      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/greyscale.png");
+      b.convertToGrayscaleLumosity();
+      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/greyscale_lumos.png");
+      b.floydSteinbergDither(false);
+      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/dither.png");
+      b.floydSteinbergDither(true);
+      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/dither_lumos.png");
+      b.bayerDither(false);
+      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/bayerDither.png");
+      b.bayerDither(true);
+      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/bayerDither_lumos.png");
   }
+  
+  public static void runPrompt() {
+    
+  }
+    
+
   
   public static void runTest() {
     
@@ -149,20 +142,8 @@ public class Main {
 
     // Iterate through bitmaps list, convert, and write converted grayscale images to their associated folders
     for(Bitmap b : bitmaps) {
-      System.out.println("Width: " + b.getWidth() + ", " + "height: " + b.getHeight());      
-      b.convertToGrayscaleAverage();
-      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/greyscale.png");
-      b.convertToGrayscaleLumosity();
-      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/greyscale_lumos.png");
-      b.floydSteinbergDither(false);
-      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/dither.png");
-      b.floydSteinbergDither(true);
-      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/dither_lumos.png");
-      b.bayerDither(false);
-      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/bayerDither.png");
-      b.bayerDither(true);
-      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/bayerDither_lumos.png");
-      
+      System.out.println("Width: " + b.getWidth() + ", " + "height: " + b.getHeight());
+      performAllOperations(b);
       System.out.println();
     }
   }
@@ -183,6 +164,7 @@ public class Main {
       System.out.println("\t -b\tDither with bayer matrix algorithm");
       System.out.println("\t -bl\tDither with bayer matrix algorithm (luminosity method)");
       System.out.println();
+      System.out.println("\t -a\tPerform all operations");
       System.out.println("\t -p\tRun program in prompt mode");
   }
   
