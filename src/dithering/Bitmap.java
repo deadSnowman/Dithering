@@ -214,8 +214,6 @@ class Bitmap {
 
         // start dithering
         // Moves verticaly, then horizontally
-        /*for (int i = 0; i < this.getWidth(); i++) {
-      for (int j = 0; j < this.getHeight(); j++) {*/
         for (int j = 0; j < this.getHeight(); j++) {
             for (int i = 0; i < this.getWidth(); i++) {
 
