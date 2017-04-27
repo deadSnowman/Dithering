@@ -3,11 +3,13 @@
  */
 package dithering;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Main class for testing Bitmap methods
- * @author seth
+ * @author seth & anna
  */
 public class Main {
 
@@ -16,12 +18,61 @@ public class Main {
    */
   public static void main(String[] args) {
     
+    run(args);
+
+  }
+  
+  /**
+   * Run the program using commandline arguments as different operations
+   * @param args the commandline arguments
+   */
+  public static void run(String[] args) {
+    
+    if(Arrays.asList(args).contains("--help") || Arrays.asList(args).contains("-h")) {
+      printUsage();
+    }
+    else if(Arrays.asList(args).contains("-prompt") || Arrays.asList(args).contains("-p")) {
+      System.out.println("Running in prompt mode...");
+      runPrompt();
+    }
+    else if(Arrays.asList(args).contains("-test") || Arrays.asList(args).contains("-t")) {
+      System.out.println("Contains \"-t\"");
+      System.out.println("Running in test mode...");
+      runTest();
+    }
+    else if(Arrays.asList(args).contains("-all")) {
+      System.out.println("Contains \"-all\"");
+      // run all methods
+      // if directory is specified, write there, otherwise use current directory
+    }
+    else {
+      if(Arrays.asList(args).contains("-g")) {
+	// greyscale conversion
+      }
+    }
+    
+  }
+  
+  public static void runPrompt() {
+  }
+  
+  public static void runTest() {
+    
     ArrayList<Bitmap> bitmaps = new ArrayList<>();
     
-    Bitmap image3 = new Bitmap("wings/mtg__gift_of_orzhova_by_algenpfleger-d5sj6ir.jpg"); // wings
-    Bitmap image5 = new Bitmap("apocalyptic/oh_god_where_is_my_gun_by_alexiuss-d7smmkm.jpg"); // apocalyptic
-    Bitmap image6 = new Bitmap("forest/Photo by Ray Bilcliff- (15).jpg"); // forest
-    Bitmap image7 = new Bitmap("lenna/Lenna.png"); // lenna
+    // /res/bitmaps needs to be in the project directory, or in /dist
+    String dir = "./res/bitmaps/";
+    File path = new File(System.getProperty("user.dir"));
+    System.out.println(path.getName());
+    if(path.getName().compareTo("Dithering") != 0) {
+      dir = "../res/bitmaps/";
+      System.out.println("here");
+    }
+    
+    Bitmap image3 = new Bitmap(dir + "wings/mtg__gift_of_orzhova_by_algenpfleger-d5sj6ir.jpg"); // wings
+    Bitmap image5 = new Bitmap(dir + "apocalyptic/oh_god_where_is_my_gun_by_alexiuss-d7smmkm.jpg"); // apocalyptic
+    Bitmap image6 = new Bitmap(dir + "forest/Photo by Ray Bilcliff- (15).jpg"); // forest
+    Bitmap image7 = new Bitmap(dir + "lenna/Lenna.png"); // lenna
     
     bitmaps.add(image3);
     bitmaps.add(image5);
@@ -46,23 +97,21 @@ public class Main {
       
       System.out.println();
     }
-    
-    // Just test 1 image
-    /*Bitmap image = new Bitmap("wings/mtg__gift_of_orzhova_by_algenpfleger-d5sj6ir.jpg"); // wings
-    System.out.println("Width: " + image.getWidth() + ", " + "height: " + image.getHeight());      
-    //image.convertToGrayscaleAverage();
-    //image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/out.png");
-    //image.convertToGrayscaleLumosity();
-    //image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/out2.png");
-    image.floydSteinbergDither(false);
-    //image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/out3.png");
-    
-    image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/outTest.png");
-    
-    image.floydSteinbergDither(true);
-    image.writeBitmap(image.getFileName().substring(0, image.getFileName().lastIndexOf("/")) + "/outTest2.png");*/
-    
-    
+  }
+  
+  /**
+   * Print usage for commandline arguments
+   */
+  public static void printUsage() {
+      System.out.println("Usage: java -jar Dithering.jar [-i input_file] [-g] [-gl] [-d] [-dl] [-b] [-bl] [-o output_file]");
+      System.out.println("                               [-h usage]");
+      System.out.println();
+      System.out.println("\t -g\tConvert to greyscale");
+      System.out.println("\t -gl\tConvert to greyscale (luminosity method)");
+      System.out.println("\t -d\tDither with stein floyd algorithm");
+      System.out.println("\t -dl\tDither with stein floyd algorithm (luminosity method)");
+      System.out.println("\t -b\tDither with bayer matrix algorithm");
+      System.out.println("\t -bl\tDither with bayer matrix algorithm (luminosity method)");
   }
   
 }

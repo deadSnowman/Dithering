@@ -18,7 +18,7 @@ import javax.imageio.ImageIO;
  * Bitmap class This is used for reading a bitmap image, and performing
  * operations on the image (converting to grayscale, dithering)
  *
- * @author seth
+ * @author seth & anna
  */
 class Bitmap {
 
@@ -35,7 +35,7 @@ class Bitmap {
         this.fileName = fileName;
 
         try {
-            image = ImageIO.read(new File("./res/bitmaps/" + fileName));
+            image = ImageIO.read(new File(fileName));
             //this.writeImage = this.image; // doesn't make deep copy, just points to this.image
 
             // Create deep copy of the image
@@ -390,11 +390,11 @@ class Bitmap {
 //    }
 
     public void writeBitmap(String writeFileName) {
-        File output = new File("./res/bitmaps/" + writeFileName);
+        File output = new File(writeFileName);
 
         try {
             ImageIO.write(this.writeImage, "png", output);
-            System.out.println("Image written: \"./res/bitmaps/" + writeFileName + "\"");
+            System.out.println("Image written: " + writeFileName + "\"");
         } catch (IOException ex) {
             Logger.getLogger(Bitmap.class.getName()).log(Level.SEVERE, null, ex);
         }
