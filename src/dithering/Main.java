@@ -7,6 +7,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import javax.activation.MimetypesFileTypeMap;
 
 /**
  * Main class for testing Bitmap methods
@@ -44,8 +45,9 @@ public class Main {
       if(Arrays.asList(args).contains("-i")) { // if there in an input file flag
 	String imagePath = args[Arrays.asList(args).indexOf("-i")+1];
 	File path = new File(args[Arrays.asList(args).indexOf("-i")+1]);
+	String mimetype = new MimetypesFileTypeMap().getContentType(path);
 	
-	if(path.exists() && !path.isDirectory()) { // if the file is real
+	if(path.exists() && !path.isDirectory() && mimetype.split("/")[0].equals("image")) { // if the file is real
 	
 	  Bitmap image = new Bitmap(imagePath);
 	  goThroughOptions(image, args);
@@ -97,25 +99,24 @@ public class Main {
   }
   
   public static void performAllOperations(Bitmap b) {
+    System.out.println("Width: " + b.getWidth() + ", " + "height: " + b.getHeight());
     b.convertToGrayscaleAverage();
-      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/greyscale.png");
-      b.convertToGrayscaleLumosity();
-      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/greyscale_lumos.png");
-      b.floydSteinbergDither(false);
-      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/dither.png");
-      b.floydSteinbergDither(true);
-      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/dither_lumos.png");
-      b.bayerDither(false);
-      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/bayerDither.png");
-      b.bayerDither(true);
-      b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/bayerDither_lumos.png");
+    b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/greyscale.png");
+    b.convertToGrayscaleLumosity();
+    b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/greyscale_lumos.png");
+    b.floydSteinbergDither(false);
+    b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/dither.png");
+    b.floydSteinbergDither(true);
+    b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/dither_lumos.png");
+    b.bayerDither(false);
+    b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/bayerDither.png");
+    b.bayerDither(true);
+    b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/bayerDither_lumos.png");
   }
   
   public static void runPrompt() {
     
   }
-    
-
   
   public static void runTest() {
     
@@ -124,10 +125,8 @@ public class Main {
     // /res/bitmaps needs to be in the project directory, or in /dist
     String dir = "./res/bitmaps/";
     File path = new File(System.getProperty("user.dir"));
-    System.out.println(path.getName());
     if(path.getName().compareTo("Dithering") != 0) {
       dir = "../res/bitmaps/";
-      System.out.println("here");
     }
     
     Bitmap image3 = new Bitmap(dir + "wings/mtg__gift_of_orzhova_by_algenpfleger-d5sj6ir.jpg"); // wings
@@ -139,10 +138,9 @@ public class Main {
     bitmaps.add(image5);
     bitmaps.add(image6);
     bitmaps.add(image7);
-
+    
     // Iterate through bitmaps list, convert, and write converted grayscale images to their associated folders
     for(Bitmap b : bitmaps) {
-      System.out.println("Width: " + b.getWidth() + ", " + "height: " + b.getHeight());
       performAllOperations(b);
       System.out.println();
     }
