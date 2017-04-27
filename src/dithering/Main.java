@@ -6,6 +6,7 @@ package dithering;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 /**
  * Main class for testing Bitmap methods
@@ -79,6 +80,48 @@ public class Main {
   }
   
   public static void runPrompt() {
+    
+    Scanner scan = new Scanner(System.in);
+    String input;
+    
+    System.out.println("Welcom to the grayscale conversion and dithering program");
+    System.out.println("==============================AYYYYEEELAMOOO============");
+    givePromptMessage();
+    
+    while(scan.hasNext()) {
+      givePromptMessage();
+      
+      input = scan.nextLine();
+      
+      if(input.compareTo("x") == 0) {
+	System.out.println("Exiting program...");
+	break;
+      }
+      else {
+      
+	switch(input) {
+	  case "1":
+	    System.out.println("greyscale");
+	    break;
+	  case "2":
+	    System.out.println("greyscale");
+	    break;
+	}
+	  
+      }
+      
+    }
+  }
+  
+  public static void givePromptMessage() {
+    System.out.println("What would you like to do?");
+      System.out.println("1.) Convert to greyscale");
+      System.out.println("2.) Convert to greyscale luminosity");
+      System.out.println("3.) Dither using Stein Floyd dithering");
+      System.out.println("4.) Dither using Stein Floyd dithering (luminosity)");
+      System.out.println("5.) Dither with ");
+      System.out.println("6.) Convert to greyscale");
+      System.out.println("x.) Quit program");
   }
   
   public static void runTest() {
