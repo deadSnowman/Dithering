@@ -36,7 +36,6 @@ public class Main {
       runPrompt();
     }
     else if(Arrays.asList(args).contains("-test") || Arrays.asList(args).contains("-t")) {
-      System.out.println("Contains \"-t\"");
       System.out.println("Running in test mode...");
       runTest();
     }
@@ -46,8 +45,34 @@ public class Main {
       // if directory is specified, write there, otherwise use current directory
     }
     else {
-      if(Arrays.asList(args).contains("-g")) {
-	// greyscale conversion
+      if(Arrays.asList(args).contains("-i")) { // if there in an input file flag
+	String image = args[Arrays.asList(args).indexOf("-g")+1];
+	File path = new File(args[Arrays.asList(args).indexOf("-g")+1]);
+	
+	if(path.exists() && !path.isDirectory()) { // if the file is real
+	
+	  if(Arrays.asList(args).contains("-g")) {
+	    // greyscale conversion
+	  }
+	  if(Arrays.asList(args).contains("-gl")) {
+	    // greyscale conversion (luminosity)
+	  }
+	  if(Arrays.asList(args).contains("-d")) {
+	    // stein floyd dithering
+	  }
+	  if(Arrays.asList(args).contains("-dl")) {
+	    // stein floyd dithering (luminosity)
+	  }
+	  if(Arrays.asList(args).contains("-b")) {
+	    // bayer matrix dithering
+	  }
+	  if(Arrays.asList(args).contains("-bl")) {
+	    // bayer matrix dithering (luminosity)
+	  }
+	}
+	else {
+	  System.out.println("You need to specify an image file after \"-i\"");
+	}
       }
     }
     
@@ -103,8 +128,10 @@ public class Main {
    * Print usage for commandline arguments
    */
   public static void printUsage() {
-      System.out.println("Usage: java -jar Dithering.jar [-i input_file] [-g] [-gl] [-d] [-dl] [-b] [-bl] [-o output_file]");
+      System.out.println("Usage: java -jar Dithering.jar [-i input_file] [-g] [-gl] [-d] [-dl] [-b] [-bl] [-o output_dir]");
       System.out.println("                               [-h usage]");
+      System.out.println("                               [-i input_file] [-p]");
+      System.out.println("                               [-i input_file] [-a] [-o output_dir]");
       System.out.println();
       System.out.println("\t -g\tConvert to greyscale");
       System.out.println("\t -gl\tConvert to greyscale (luminosity method)");
@@ -112,6 +139,8 @@ public class Main {
       System.out.println("\t -dl\tDither with stein floyd algorithm (luminosity method)");
       System.out.println("\t -b\tDither with bayer matrix algorithm");
       System.out.println("\t -bl\tDither with bayer matrix algorithm (luminosity method)");
+      System.out.println();
+      System.out.println("\t -p\tRun program in prompt mode");
   }
   
 }
