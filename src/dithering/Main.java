@@ -42,6 +42,7 @@ public class Main {
       runTest();
     }
     else {
+      
       if(Arrays.asList(args).contains("-i")) { // if there in an input file flag
 	String imagePath = args[Arrays.asList(args).indexOf("-i")+1];
 	File path = new File(args[Arrays.asList(args).indexOf("-i")+1]);
@@ -150,10 +151,10 @@ public class Main {
    * Print usage for commandline arguments
    */
   public static void printUsage() {
-      System.out.println("Usage: java -jar Dithering.jar [-i input_file] [-g] [-gl] [-d] [-dl] [-b] [-bl] [-o output_dir]");
+      System.out.println("Usage: java -jar Dithering.jar [-i input_file] [-g] [-gl] [-d] [-dl] [-b] [-bl]");
       System.out.println("                               [-h usage]");
       System.out.println("                               [-i input_file] [-p]");
-      System.out.println("                               [-i input_file] [-a] [-o output_dir]");
+      System.out.println("                               [-i input_file] [-a]");
       System.out.println();
       System.out.println("\t -g\tConvert to greyscale");
       System.out.println("\t -gl\tConvert to greyscale (luminosity method)");
