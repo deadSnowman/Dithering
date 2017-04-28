@@ -62,6 +62,11 @@ public class Main {
     
   }
   
+  /**
+   * Look at commandline arguments for greyscale and dithering operations
+   * @param image the image that is being passed through standard input
+   * @param args - arguments for performing the greyscale and dithering operations
+   */
   public static void goThroughOptions(Bitmap image, String[] args) {
     if(Arrays.asList(args).contains("-all") || Arrays.asList(args).contains("-a")) {
       performAllOperations(image);
@@ -99,6 +104,10 @@ public class Main {
     
   }
   
+  /**
+   * Perform all greyscale and dithering operations on the bitmap image
+   * @param b - the bitmap image
+   */
   public static void performAllOperations(Bitmap b) {
     System.out.println("Width: " + b.getWidth() + ", " + "height: " + b.getHeight());
     b.convertToGrayscaleAverage();
@@ -119,6 +128,9 @@ public class Main {
     
   }
   
+  /**
+   * Run all the operations on specific files for testing purposes
+   */
   public static void runTest() {
     
     ArrayList<Bitmap> bitmaps = new ArrayList<>();

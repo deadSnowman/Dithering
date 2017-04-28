@@ -51,10 +51,14 @@ class Bitmap {
 
     }
 
+    /**
+     * Constructor for the Bitmap class
+     * @param width - the width of bitmap image
+     * @param height - the height of the bitmap image
+     */
     public Bitmap(int width, int height) {
         this.width = width;
         this.height = height;
-        //this.pixels = new int[width * height];
         this.image = null;
         this.fileName = null;
     }
@@ -64,6 +68,10 @@ class Bitmap {
         this.bayerImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     }
 
+    /**
+     * Create a deep copy of the image
+     * @param imageToCopy
+     */
     void deepCopy(BufferedImage imageToCopy) {
         ColorModel cm = imageToCopy.getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
@@ -71,6 +79,11 @@ class Bitmap {
         this.writeImage = new BufferedImage(cm, raster, isAlphaPremultiplied, null);
     }
 
+    /**
+     * Creates a deep copy of the image that is different from the writeImage
+     * Used for floyd steinberg dithering
+     * @param imageToCopy 
+     */
     void deepImageCopy(BufferedImage imageToCopy) {
         ColorModel cm = imageToCopy.getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
@@ -78,18 +91,34 @@ class Bitmap {
         this.imageCopy = new BufferedImage(cm, raster, isAlphaPremultiplied, null);
     }
 
+    /**
+     * Get the image file name
+     * @return the image file name
+     */
     public String getFileName() {
         return this.fileName;
     }
 
+    /**
+     * Get the image's pixel height
+     * @return return the image's height
+     */
     public int getHeight() {
         return this.height;
     }
 
+    /**
+     * Get the image's pixel width
+     * @return return the image's width
+     */
     public int getWidth() {
         return this.width;
     }
 
+    /**
+     * Returns the image
+     * @return BufferedImage image
+     */
     public BufferedImage getImage() {
         return this.image;
     }
@@ -115,7 +144,7 @@ class Bitmap {
     }
 
     /**
-     * Creates a grayscale image using the "lumosity method" This multiplies the
+     * Creates a grayscale image using the "lumanosity method" This multiplies the
      * RGB values by weights to account for human perception (R * .21, G * .72,
      * B * .07)
      *
@@ -138,6 +167,12 @@ class Bitmap {
         }
     }
 
+    /**
+     * A method for performing the Floyd Steinberg Dithering algorithm
+     * Convert to greyscale first, using the averageing method, or lumanosity method
+     * Then perform dithering
+     * @param l true for lumanosity, false for averaging
+     */
     public void floydSteinbergDither(boolean l) {
 
         deepCopy(this.image); // use original image (start fresh)
@@ -231,6 +266,12 @@ class Bitmap {
 
     }
     
+    /**
+     * A method for performing Bayer Matrix dithering.
+     * Convert to greyscale first, using the averageing method, or lumanosity method
+     * Then perform dithering
+     * @param l true for lumanosity, false for averaging
+     */
     public void bayerDither(boolean l) {
         deepCopy(this.image); // use original image (start fresh)
 
@@ -342,6 +383,10 @@ class Bitmap {
 //        return square;
 //    }
 
+    /**
+     * Write the image to the specified directory
+     * @param writeFileName the specified directory to write to
+     */
     public void writeBitmap(String writeFileName) {
         File output = new File(writeFileName);
 
