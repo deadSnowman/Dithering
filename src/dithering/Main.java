@@ -80,47 +80,210 @@ public class Main {
   }
   
   public static void runPrompt() {
+    /*--------------------------------------------------------------------------
+                                 start load images
+    --------------------------------------------------------------------------*/
+    ArrayList<Bitmap> bitmaps = new ArrayList<>();
+    
+    // /res/bitmaps needs to be in the project directory, or in /dist
+    String dir = "./res/bitmaps/";
+    File path = new File(System.getProperty("user.dir"));
+    System.out.println(path.getName());
+    if(path.getName().compareTo("Dithering") != 0) {
+        dir = "../res/bitmaps/";
+        System.out.println("here");
+    }
+    
+    Bitmap image3 = new Bitmap(dir + "wings/mtg__gift_of_orzhova_by_algenpfleger-d5sj6ir.jpg"); // wings
+    Bitmap image5 = new Bitmap(dir + "apocalyptic/oh_god_where_is_my_gun_by_alexiuss-d7smmkm.jpg"); // apocalyptic
+    Bitmap image6 = new Bitmap(dir + "forest/Photo by Ray Bilcliff- (15).jpg"); // forest
+    Bitmap image7 = new Bitmap(dir + "lenna/Lenna.png"); // lenna
+    
+    bitmaps.add(image3);
+    bitmaps.add(image5);
+    bitmaps.add(image6);
+    bitmaps.add(image7);
+    /*--------------------------------------------------------------------------
+                                 end load images                               
+    --------------------------------------------------------------------------*/
     
     Scanner scan = new Scanner(System.in);
     String input;
     
-    System.out.println("Welcom to the grayscale conversion and dithering program");
-    System.out.println("==============================AYYYYEEELAMOOO============");
-    givePromptMessage();
+    System.out.println("Welcome to the grayscale conversion and dithering program");
+    System.out.println("=========================================================");
+    givePrompt();
+    int prompt = 1;
+    boolean fileChosen = false;
     
     while(scan.hasNext()) {
-      givePromptMessage();
       
       input = scan.nextLine();
       
       if(input.compareTo("x") == 0) {
+        System.out.println();
 	System.out.println("Exiting program...");
 	break;
       }
-      else {
       
+      else if (prompt == 1) {
+        ++prompt; //because next time through while loop we don't want to go through this switch case.
 	switch(input) {
 	  case "1":
-	    System.out.println("greyscale");
+              if(!fileChosen)
+                chooseFilePrompt("greyscale");
+              else {//file is chosen and now need to perform greyscale action
+                for(Bitmap b : bitmaps) {   
+                    b.convertToGrayscaleAverage();
+                    b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/greyscale.png");
+                }
+                System.out.println("Success!");
+                fileChosen = false; //restart menu settings
+                prompt = 1;
+                givePrompt();
+              }
 	    break;
 	  case "2":
-	    System.out.println("greyscale");
+              if(!fileChosen)
+                chooseFilePrompt("greyscale luminosity");
+              else {//file is chosen and now need to perform greyscale luminosity action
+                for(Bitmap b : bitmaps) {   
+                    b.convertToGrayscaleLumosity();
+                    b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/greyscale_lumos.png");
+                }
+                System.out.println("Success!");
+                fileChosen = false; //restart menu settings
+                prompt = 1;
+                givePrompt();
+              }
+	    break;
+	  case "3":
+              if(!fileChosen)
+                chooseFilePrompt("Stein Floyd dithering");
+              else {//file is chosen and now need to perform Stein Floyd dithering action
+                for(Bitmap b : bitmaps) { 
+                    b.floydSteinbergDither(false);
+                    b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/dither.png");
+                }
+                System.out.println("Success!");
+                fileChosen = false; //restart menu settings
+                prompt = 1;
+                givePrompt();
+              }
+	    break;
+	  case "4":
+              if(!fileChosen)
+                chooseFilePrompt("Stein Floyd dithering (luminosity)");
+              else {//file is chosen and now need to perform Stein Floyd dithering (luminosity) action
+                for(Bitmap b : bitmaps) { 
+                    b.floydSteinbergDither(true);
+                    b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/dither_lumos.png");
+                }
+                System.out.println("Success!");
+                fileChosen = false; //restart menu settings
+                prompt = 1;
+                givePrompt();
+              }
+	    break;
+	  case "5":
+              if(!fileChosen)
+                chooseFilePrompt("Bayer dithering");
+              else {//file is chosen and now need to perform Bayer dithering action
+                for(Bitmap b : bitmaps) { 
+                    b.bayerDither(false);
+                    b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/bayerDither.png");
+                }
+                System.out.println("Success!");
+                fileChosen = false; //restart menu settings
+                prompt = 1;
+                givePrompt();
+              }
+	    break;
+	  case "6":
+              if(!fileChosen)
+                chooseFilePrompt("Bayer dithering (luminosity)");
+              else {//file is chosen and now need to perform Bayer dithering (luminosity) action
+                for(Bitmap b : bitmaps) { 
+                    b.bayerDither(true);
+                    b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/bayerDither_lumos.png");
+                }
+                System.out.println("Success!");
+                fileChosen = false; //restart menu settings
+                prompt = 1;
+                givePrompt();
+              }
+	    break;
+	  case "7":
+              if(!fileChosen)
+                chooseFilePrompt("all actions");
+              else {//file is chosen and now need to perform all actions
+                for(Bitmap b : bitmaps) {   
+                    b.convertToGrayscaleAverage();
+                    b.writeBitmap(b.getFileName().substring(0, b.getFileName().lastIndexOf("/")) + "/greyscale.png");
+                }
+                System.out.println("Success!");
+                fileChosen = false; //restart menu settings
+                prompt = 1;
+                givePrompt();
+              }
 	    break;
 	}
 	  
+      }
+      else if(prompt == 2) { //this is the second prompt, (after going through the original menu)
+          switch(input) {
+              case "1": //user selects file location
+                  prompt = 3; //go to 3rd prompt
+                  break;
+              case "2": //default
+                  fileChosen = true;
+                  prompt = 1;
+                  break;
+          }
+      }
+      else if(prompt == 3) {//ask user for the relative file location
+          prompt = 4; // go to next prompt
+          System.out.println();
+          System.out.println("Make sure picture is in its own separate folder.");
+          System.out.println("Please enter file (or x to exit):");
+          System.out.print(">> ");
+      }
+      else {
+          try {
+              Bitmap image = new Bitmap(input); //user chosen image
+              bitmaps.add(image);
+              
+              prompt = 1;
+              fileChosen = true;
+              
+          } catch(Exception ex) {
+              System.out.println();
+              System.out.println("Please fix path and try again.");
+              prompt = 4;
+          }
       }
       
     }
   }
   
-  public static void givePromptMessage() {
-    System.out.println("What would you like to do?");
+  public static void givePrompt() {
+      System.out.println();
+      System.out.println("What would you like to do?");
       System.out.println("1.) Convert to greyscale");
       System.out.println("2.) Convert to greyscale luminosity");
       System.out.println("3.) Dither using Stein Floyd dithering");
       System.out.println("4.) Dither using Stein Floyd dithering (luminosity)");
-      System.out.println("5.) Dither with ");
-      System.out.println("6.) Convert to greyscale");
+      System.out.println("5.) Dither with Bayer dithering");
+      System.out.println("6.) Convert to Bayer dithering (luminosity)");
+      System.out.println("7.) Do all");
+      System.out.println("x.) Quit program");
+  }
+  
+  public static void chooseFilePrompt(String action) {
+      System.out.println();
+      System.out.println("Perform " + action + " on:");
+      System.out.println("1.) Enter an image's file location");
+      System.out.println("2.) Default images");
       System.out.println("x.) Quit program");
   }
   
