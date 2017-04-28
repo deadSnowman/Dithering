@@ -142,7 +142,7 @@ public class Main {
   public static void chooseFilePrompt(String action) {
     System.out.println();
     System.out.println("Perform " + action + " on:");
-    System.out.println("1.) Enter an image's file location");
+    System.out.println("1.) Add an image to the collection");
     System.out.println("2.) Default images");
     System.out.println("x.) Quit program");
   }
@@ -339,10 +339,11 @@ public class Main {
 	    break;
 	}
       } else if (prompt == 3) {
-	File userInputPath = new File(input);
+	File userInputPath = new File(dir + input);
 	String mimetype = new MimetypesFileTypeMap().getContentType(userInputPath);
-	if (path.exists() && !path.isDirectory() && mimetype.split("/")[0].equals("image")) {
-	  Bitmap image = new Bitmap(input); //user chosen image
+	
+	if (path.exists() && mimetype.split("/")[0].equals("image")) {
+	  Bitmap image = new Bitmap(dir + input); //user chosen image
 	  bitmaps.add(image);
 
 	  prompt = 1;
