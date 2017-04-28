@@ -4,9 +4,13 @@
 package dithering;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.activation.MimetypesFileTypeMap;
 
 /**
@@ -46,15 +50,18 @@ public class Main {
 	String imagePath = args[Arrays.asList(args).indexOf("-i") + 1];
 	File path = new File(args[Arrays.asList(args).indexOf("-i") + 1]);
 	String mimetype = new MimetypesFileTypeMap().getContentType(path);
-
-	if (path.exists() && !path.isDirectory() && mimetype.split("/")[0].equals("image")) { // if the file is real
-
-	  Bitmap image = new Bitmap(imagePath);
-	  goThroughOptions(image, args);
-
-	} else {
-	  System.out.println("You need to specify an image file after \"-i\"");
-	}
+        
+          try {
+              if (path.exists() && !path.isDirectory() && mimetype.split("/")[0].equals("image") || Files.probeContentType(path.toPath()).contains("image")) { // if the file is real
+                  
+                  Bitmap image = new Bitmap(imagePath);
+                  goThroughOptions(image, args);
+                  
+              } else {
+                  System.out.println("You need to specify an image file after \"-i\"");
+              } } catch (IOException ex) {
+              Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+          }
       }
     }
 
@@ -342,23 +349,26 @@ public class Main {
 	File userInputPath = new File(dir + input);
 	String mimetype = new MimetypesFileTypeMap().getContentType(userInputPath);
 	
-	if (path.exists() && mimetype.split("/")[0].equals("image")) {
-	  Bitmap image = new Bitmap(dir + input); //user chosen image
-	  bitmaps.add(image);
-
-	  prompt = 1;
-	  fileChosen = true;
-	  input = decision;
-	  getInput = false;
-	} else {
-	  System.out.println();
-	  System.out.println("ERROR:  please fix path and try again.");
-	  prompt = 3;
-	  getInput = true;
-	  System.out.println("Make sure picture is in its own separate folder.");
-	  System.out.println("Please enter file (or x to exit):");
-	  System.out.print(">> ");
-	}
+          try {
+              if (path.exists() && mimetype.split("/")[0].equals("image") || Files.probeContentType(path.toPath()).contains("image")) {
+                  Bitmap image = new Bitmap(dir + input); //user chosen image
+                  bitmaps.add(image);
+                  
+                  prompt = 1;
+                  fileChosen = true;
+                  input = decision;
+                  getInput = false;
+              } else {
+                  System.out.println();
+                  System.out.println("ERROR:  please fix path and try again.");
+                  prompt = 3;
+                  getInput = true;
+                  System.out.println("Make sure picture is in its own separate folder.");
+                  System.out.println("Please enter file (or x to exit):");
+                  System.out.print(">> ");
+              } } catch (IOException ex) {
+              Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+          }
       }
 
     }
