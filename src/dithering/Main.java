@@ -160,10 +160,8 @@ public class Main {
     // /res/bitmaps needs to be in the project directory, or in /dist
     String dir = "./res/bitmaps/";
     File path = new File(System.getProperty("user.dir"));
-    System.out.println(path.getName());
     if (path.getName().compareTo("Dithering") != 0) {
       dir = "../res/bitmaps/";
-      System.out.println("here");
     }
 
     Bitmap image3 = new Bitmap(dir + "wings/mtg__gift_of_orzhova_by_algenpfleger-d5sj6ir.jpg"); // wings
